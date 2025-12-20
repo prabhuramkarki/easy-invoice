@@ -23,7 +23,7 @@ Easy Invoice is a full-stack application built with Django and React. It uses OC
 
 - **Backend:** Python, Django, Django REST Framework, OCR libraries (like Tesseract)  
 - **Frontend:** React, Axios, TailwindCSS (or your styling library)  
-- **Database:** SQLite / PostgreSQL  
+- **Database:** SQL  
 
 ---
 
