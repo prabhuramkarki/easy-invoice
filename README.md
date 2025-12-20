@@ -33,4 +33,4 @@ Easy Invoice is a full-stack application built with Django and React. It uses OC
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/yourusername/easy-invoice.git
+   git clone https://github.com/prabhuramkarki/easy-invoice.git
