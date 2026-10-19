@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# Easy Invoice frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 and TypeScript interface for uploading invoice images to the Django OCR API and displaying the returned data. Styling uses Tailwind CSS 4; the development server uses Vite 7.
 
-Currently, two official plugins are available:
+See the [root README](../README.md) for backend dependencies, MySQL/Tesseract setup, local CORS configuration, API examples, and current limitations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run locally
 
-## React Compiler
+Use Node.js 20.19+ within 20.x, or 22.12+, and npm. After starting the configured Django backend on `127.0.0.1:8000`, run from this directory:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev -- --port 5173 --strictPort
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Use `npm install` for the initial setup: the checked-in npm lockfile omits the manifest's `lucide-react` dependency.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Open [http://localhost:5173](http://localhost:5173). Upload a JPG or PNG and choose **Extract Data**.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The upload URL is hardcoded to `http://127.0.0.1:8000/api/invoices` in [InvoiceForm.tsx](src/components/InvoiceForm.tsx). There is no API environment variable or Vite proxy configured. The backend must allow the frontend origin through CORS as described in the root README.
+
+## Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start Vite |
+| `npm run build` | Run `tsc -b` and create the Vite build |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview a production build |
+
+The strict TypeScript configuration exposes existing untyped handlers/state; a passing production build is not assumed. No frontend test script is configured.
+
+Uploaded images, extracted text, and CSV summaries are retained by the backend despite the current footer wording. PDF input and Excel export are not implemented.
